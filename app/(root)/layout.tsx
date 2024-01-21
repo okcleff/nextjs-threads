@@ -34,6 +34,7 @@ export default function RootLayout({
             <RightSideBar />
           </main>
 
+          {/* 모바일 화면에서 native 느낌의 UI를 구현하기 위해 사용 */}
           <BottomBar />
         </body>
       </html>
