@@ -13,6 +13,7 @@ const TopBar = () => {
 
       <div className='flex items-center gap-1'>
         <div className='block md:hidden'>
+          {/* By Cleck - 로그인 되었을 때만 렌더링 되는 컴포넌트 */}
           <SignedIn>
             <SignOutButton>
               <div className='flex cursor-pointer'>
