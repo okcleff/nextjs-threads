@@ -82,7 +82,7 @@ const AccountProfile = ({ user, btnTitle }: AccountProfileProps) => {
           control={form.control}
           name="profile_photo"
           render={({ field }) => (
-            <FormItem className="flex flex-col justify-start gap-10">
+            <FormItem className="flex items-center gap-4">
               <FormLabel className="account-form_image-label">
                 {field.value ? (
                   <Image
