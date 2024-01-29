@@ -16,7 +16,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+
+import { isBase64Image } from "@/lib/utils";
 import { UserValidation } from "@/lib/validations/user";
+import { useUploadThing } from "@/lib/uploadThing";
 
 interface AccountProfileProps {
   user: {
@@ -31,22 +34,33 @@ interface AccountProfileProps {
 }
 
 const AccountProfile = ({ user, btnTitle }: AccountProfileProps) => {
+  const { startUpload } = useUploadThing("media");
+
   const [files, setFiles] = useState<File[]>([]);
 
   const form = useForm<z.infer<typeof UserValidation>>({
     resolver: zodResolver(UserValidation),
     defaultValues: {
-      profile_photo: user?.image ? user.image : "",
-      name: user?.name ? user.name : "",
-      username: user?.username ? user.username : "",
-      bio: user?.bio ? user.bio : "",
+      profile_photo: user?.image || "",
+      name: user?.name || "",
+      username: user?.username || "",
+      bio: user?.bio || "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof UserValidation>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof UserValidation>) => {
+    const blob = values.profile_photo;
+
+    const hasImageChanged = isBase64Image(blob);
+    if (hasImageChanged) {
+      const imgRes = await startUpload(files);
+
+      if (imgRes && imgRes[0].url) {
+        values.profile_photo = imgRes[0].url;
+      }
+    }
+
+    // TODO: Update user profile
   };
 
   const handleImage = (
