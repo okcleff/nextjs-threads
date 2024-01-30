@@ -2,6 +2,7 @@
 
 import * as z from "zod";
 import { ChangeEvent, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { isBase64Image } from "@/lib/utils";
 import { UserValidation } from "@/lib/validations/user";
 import { useUploadThing } from "@/lib/uploadThing";
+import { updateUser } from "@/lib/actions/user.actions";
 
 interface AccountProfileProps {
   user: {
@@ -34,6 +36,8 @@ interface AccountProfileProps {
 }
 
 const AccountProfile = ({ user, btnTitle }: AccountProfileProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
   const { startUpload } = useUploadThing("media");
 
   const [files, setFiles] = useState<File[]>([]);
@@ -60,7 +64,20 @@ const AccountProfile = ({ user, btnTitle }: AccountProfileProps) => {
       }
     }
 
-    // TODO: Update user profile
+    await updateUser({
+      userId: user.id,
+      username: values.username,
+      name: values.name,
+      bio: values.bio,
+      image: values.profile_photo,
+      path: pathname,
+    });
+
+    if (pathname === "/profile/edit") {
+      router.back();
+    } else {
+      router.push("/");
+    }
   };
 
   const handleImage = (
