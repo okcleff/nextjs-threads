@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 
 import { isBase64Image } from "@/lib/utils";
 import { UserValidation } from "@/lib/validations/user";
-import { useUploadThing } from "@/lib/uploadThing";
+import { useUploadThing } from "@/lib/uploadthang";
 import { updateUser } from "@/lib/actions/user.actions";
 
 interface AccountProfileProps {
@@ -58,7 +58,7 @@ const AccountProfile = ({ user, btnTitle }: AccountProfileProps) => {
     const hasImageChanged = isBase64Image(blob);
     if (hasImageChanged) {
       const imgRes = await startUpload(files);
-
+      console.log(imgRes);
       if (imgRes && imgRes[0].url) {
         values.profile_photo = imgRes[0].url;
       }
