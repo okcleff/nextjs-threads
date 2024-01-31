@@ -38,8 +38,6 @@ export async function updateUser({
   try {
     connectToDB();
 
-    console.log({ userId, bio, name, path, username, image });
-
     await User.findOneAndUpdate(
       { id: userId },
       {
