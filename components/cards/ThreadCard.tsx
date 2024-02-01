@@ -1,29 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-
-interface IThreadCardProps {
-  id: string;
-  currentUserId: string;
-  parentId: string | null;
-  content: string;
-  author: {
-    name: string;
-    image: string;
-    id: string;
-  };
-  community: {
-    id: string;
-    name: string;
-    image: string;
-  } | null;
-  createdAt: string;
-  comments: {
-    author: {
-      image: string;
-    };
-  }[];
-  isComment?: boolean;
-}
+import { IThreadCard } from "@/types";
 
 function ThreadCard({
   id,
@@ -35,7 +12,7 @@ function ThreadCard({
   createdAt,
   comments,
   isComment,
-}: IThreadCardProps) {
+}: IThreadCard) {
   return (
     <article
       className={`flex w-full flex-col rounded-xl ${
