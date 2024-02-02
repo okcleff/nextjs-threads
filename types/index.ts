@@ -8,7 +8,7 @@ export interface IThreadCard {
     image: string;
     id: string;
   };
-  community: {
+  community?: {
     id: string;
     name: string;
     image: string;
