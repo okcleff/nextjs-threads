@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { fetchCommunityPosts } from "@/lib/actions/community.actions";
 import { fetchUserPosts } from "@/lib/actions/user.actions";
 import ThreadCard from "../cards/ThreadCard";
 
@@ -42,7 +43,11 @@ async function ThreadsTab({
 }: IThreadsTabProps) {
   let result: IFetchResult;
 
-  result = await fetchUserPosts(accountId);
+  if (accountType === "Community") {
+    result = await fetchCommunityPosts(accountId);
+  } else {
+    result = await fetchUserPosts(accountId);
+  }
 
   if (!result) {
     redirect("/");
@@ -65,6 +70,11 @@ async function ThreadsTab({
                   image: thread.author.image,
                   id: thread.author.id,
                 }
+          }
+          community={
+            accountType === "Community"
+              ? { name: result.name, id: result.id, image: result.image }
+              : thread.community
           }
           createdAt={thread.createdAt}
           comments={thread.children}
