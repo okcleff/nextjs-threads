@@ -22,10 +22,10 @@ export async function fetchThreads(pageNumber = 1, pageSize = 20) {
       path: "author",
       model: User,
     })
-    // .populate({
-    //   path: "community",
-    //   model: Community,
-    // })
+    .populate({
+      path: "community",
+      model: Community,
+    })
     .populate({
       path: "children", // Populate the children field
       populate: {
